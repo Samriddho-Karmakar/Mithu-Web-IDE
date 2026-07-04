@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mithu Web IDE</title>
+</head>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="monaco/min/vs/editor/editor.main.css">
+<!-- <link rel="stylesheet" href="bootstrap.css"> -->
+<script src="monaco/min/vs/loader.js"></script>
+
+<body>
+    <section style="width: 100vw; height: 35px; background-color: #7C3AED; display: flex; background: linear-gradient(90deg, #7C3AED, #6D28D9); box-shadow: 0 4px 20px rgba(0,0,0,0.4); display: flex; align-items: center; padding: 0 10px;">
+        <section style="position: relative;">
+            <button type="button" id="fileBtn" class="control">File</button>
+
+            <div id="file_menu">
+                <button id="newFileBtn">New File</button>
+                <button id="newProjectBtn" onclick="newProject()">New Project</button>
+                <button id="openFileBtn">Open File</button>
+                <button id="openProjectBtn" onclick="openProject()">Open Project</button>
+                <button id="saveProjectBtn">Save Project</button>
+                <button id="saveProjectAsBtn">Save Project As</button>
+                <label class="menu_check"><input type="checkbox" id="autosaveCheck"> Autosave</label>
+                <button id="renameProjectBtn" onclick="rename()">Rename</button>
+                <button id="homeBtn" onclick="window.api.openHome()">Home</button>
+            </div>
+        </section>
+        <section style="position: relative;">
+            <button type="button" id="editBtn" class="control">Edit</button>
+
+            <div id="edit_menu">
+                <button id="undoBtn">Undo</button>
+                <button id="redoBtn">Redo</button>
+                <button id="cutBtn">Cut</button>
+                <button id="copyBtn">Copy</button>
+                <button id="pasteBtn">Paste</button>
+                <button id="findBtn">Find</button>
+                <button id="replaceBtn">Replace</button>
+            </div>
+        </section>
+        <section style="position: relative;">
+            <button type="button" id="exportBtn" class="control">Export</button>
+
+            <div id="export_menu">
+                <button id="exportZipBtn">To .zip</button>
+                <button id="exportPdfBtn">To .pdf</button>
+            </div>
+        </section>
+        
+        <button type="button" class="control" id="previewBtn">Preview</button>
+        <button type="button" class="control" id="mode" onclick="changeMode()">Code</button>
+
+
+        <div class="slider" style="display: flex;">
+            <button type="button" id="s-">-</button>
+            <input type="range" id="sizer" min="10" max="400" value="100" ondrag="slider_adjust">
+            <button type="button" id="s+">+</button>
+            <p id="sf" style="margin: 0px; font-size: 15px; margin-top: 5px;">100%</p>
+        </div>
+
+    </section>
+    <div class="root">
+
+        <div class="tools" style="background-color: #1E293B; width: 250px;">
+            <button type="button" class="panel_toggle left_toggle" id="toggleLeftPanel" title="Hide left panel">&lt;</button>
+            <section style="display: flex; padding: 2px;" class="tool_btn">
+                <button type="button" id="elements"
+                    onclick="change_tool_screen('elements', 'pages', 'deck', 't_elements')">Elements</button>
+                <button type="button" id="pages"
+                    onclick="change_tool_screen('pages', 'elements', 'deck', 't_pages')">Pages</button>
+                <button type="button" id="deck"
+                    onclick="change_tool_screen('deck', 'elements', 'pages', 't_deck')">Deck</button>
+            </section>
+
+            <div id="t_elements" class="bar">
+                <section>
+                    <button type="button" class="el_btn" draggable="true">Label</button>
+                    <button type="button" class="el_btn" draggable="true">Paragraph</button>
+                    <button type="button" class="el_btn" draggable="true">H1</button>
+                </section>
+                <section>
+                    <button type="button" class="el_btn" draggable="true">H2</button>
+                    <button type="button" class="el_btn" draggable="true">H3</button>
+                    <button type="button" class="el_btn" draggable="true">H4</button>
+                </section>
+                <section>
+                    <button type="button" class="el_btn" draggable="true">H5</button>
+                    <button type="button" class="el_btn" draggable="true">H6</button>
+                    <button type="button" class="el_btn" draggable="true">Input</button>
+                </section>
+                <section>
+                    <button type="button" class="el_btn" draggable="true">Text Area</button>
+                    <button type="button" class="el_btn" draggable="true">Image</button>
+                    <button type="button" class="el_btn" draggable="true">Hyperlink</button>
+                </section>
+                <section>
+                    <button type="button" class="el_btn" draggable="true">Division</button>
+                    <button type="button" class="el_btn" draggable="true">Section</button>
+                    <button type="button" class="el_btn" draggable="true">Form</button>
+                </section>
+            </div>
+            <div id="t_pages" class="bar">
+                <p>pages</p>
+            </div>
+            <div id="t_deck" class="bar">
+                <p>deck</p>
+            </div>
+            <div id="t_code" class="bar">
+                <p>Code View enabled now<br><br>Please enable Design View<br>for further drag-drop options</p>
+            </div>
+        </div>
+        <div id="edit">
+             <!-- contenteditable="true" -->
+            <div class="canvas" id="area" spellcheck="false"></div>
+            <div id="ide" style="display: none; height: 100%;">
+                <div class="ide_tab">
+                    <div id="openTabs" class="open_tabs"></div>
+                </div>
+                <div class="ide_workspace">
+                    <div class="editor_panel">
+                        <div id="editor" style="height: 100%; width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="property">
+            <button type="button" class="panel_toggle right_toggle" id="toggleRightPanel" title="Hide right panel">&gt;</button>
+            <section style="display: flex; padding: 2px;" class="property_btn">
+                <button type="button" id="projectTab"
+                    onclick="change_property_screen('projectTab', 'propertiesTab', 'p_project')">Project</button>
+                <button type="button" id="propertiesTab"
+                    onclick="change_property_screen('propertiesTab', 'projectTab', 'p_properties')">Properties</button>
+            </section>
+            <div id="p_project" class="right_bar">
+                <section class="tree_actions">
+                    <button type="button" id="treeNewFileBtn" title="New file">File</button>
+                    <button type="button" id="treeNewFolderBtn" title="New folder">Folder</button>
+                </section>
+                <div id="projectTree" class="project_tree"></div>
+            </div>
+            <div id="p_properties" class="right_bar">
+                <p style="text-align: center;" id="empty" class="details">No element selected<br><br>Select something<br>on
+                    canvas</p>
+                <p style="text-align: center;" id="empty_code" class="details">Code View enabled now<br><br>Please enable
+                    Design View<br>for further drag-drop options</p>
+                <div id="selected" class="details"></div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="script.js"></script>
+<!-- <script src="renderer.js"></script> -->
+
+</html>

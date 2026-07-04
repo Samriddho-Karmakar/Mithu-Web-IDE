@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mithu Web IDE</title>
+</head>
+<style>
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    body {
+        background: #0F172A;
+        color: white;
+        font-family: 'Segoe UI', sans-serif;
+    }
+    .form{
+        margin-top: 20px;
+        margin-left: 10%;
+        height: 60vh;
+        background-color: #131c30;
+        border-radius: 10px;
+        width: 80%;
+        box-shadow: 5 5px 5px rgba(0, 0, 0, 0.438);
+        display: flex;
+    }
+    .left{
+        width: 50%;
+        height: 60vh;
+    }
+    .right{
+        width: 50%;
+        height: 60vh;
+    }
+    .top{
+        height: calc(30vh - 1px);
+        width: 100%;
+    }
+    .bottom{
+        height: calc(30vh - 1px);
+        width: 100%;
+    }
+    .middle{
+        height: 2px;
+        width: 100%;
+        background-color: rgba(240, 248, 255, 0.664);
+        border-radius: 2px;
+    }
+    .centre{
+        height: 60vh;
+        width: 2px;
+        background-color: rgba(240, 248, 255, 0.664);
+        border-radius: 2px;
+    }
+    h2{
+        text-align: center;
+        margin-top: 0vh;
+        padding-top: 2vh;
+    }
+    button{
+        height: 15vh;
+        width: 80%;
+        background-color: #0a101d;
+        border-radius: 10px;
+        border: 0px;
+        color: aliceblue;
+        font-size: 25px;
+        margin: 10%;
+        margin-top: 0%;
+    }
+    button:hover{
+        background-color: #0e131f;
+        font-size: 30px;
+        height: calc(15vh + 5px);
+        width: calc(80% + 5px);
+        color: rgb(223, 90, 116);
+    }
+    button:active{
+        color: rgb(138, 10, 36);
+    }
+    #recent{
+        height: 45vh;
+        width: 90%;
+        background-color: #0a101d;
+        /* border-radius: 10px; */
+        margin-left: 5%;
+        overflow-y: auto;
+        border: 1px white solid;
+    }
+</style>
+<body>
+    <h1 style="text-align: center; font-size: 50px; color: rgb(219, 219, 219);">Welcome to Mithu Web IDE</h1>
+    <div class="form">
+        <div class="left">
+            <div class="top">
+                <h2>Create New Project</h2>
+                <button type="button" id="new" onclick="createProject()">Create Project<br><input type="text" id="pr_name" placeholder="Project Name" style="width: 70%; height: 30px; border: 0px; border-radius: 10px; background-color: #0e131f; font-size: 20px; color: aliceblue; text-align: center; outline: none;" autofocus></button>
+            
+            </div>
+            <div class="middle"></div>
+            <div class="bottom">
+                <h2>Open Existing Project</h2>
+                <button type="button" onclick="openProject()">Open Project</button>
+            </div>
+        </div>
+        <div class="centre"></div>
+        <div class="right">
+            <h2>Recent Projects</h2>
+            <div id="recent"></div>
+        </div>
+    </div>
+    <p style="margin-left: 10%;">**For more information and affordable computer courses visit <a href="http://sceacademy.pages.dev" style="color: rgb(139, 139, 221);">Samriddho Computer Education.</a></p>
+    <p style="margin-left: 10%;">**For informaion about the app visit our <a href="https://github.com/SCE-Dev/MW-IDE" style="color: rgb(139, 139, 221);">GitHub</a> page.</p>
+</body>
+<script src="renderer.js"></script>
+</html>

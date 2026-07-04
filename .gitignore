@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Electron build output
+dist/
+out/
+release/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
+
+# Environment files
+.env
+
+# Package locks (optional)
+npm-debug.log*
+yarn-error.log*
